@@ -28,10 +28,10 @@ const loginService = async (email: string, password: string) => {
         cpf: user.cpf,
       },
     },
-    String(process.env.JWT_SECRET),
+    String(process.env.SECRET_KEY),
     { expiresIn: "12h" }
   );
-
+ 
   const userReturn = {
     id: user.id,
     name: user.name,

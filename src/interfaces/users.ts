@@ -19,3 +19,9 @@ export interface ILogin {
   email: string;
   password: string;
 }
+
+export interface ITransaction {
+  senderId: string;
+  receiver: string;
+  amount: number;
+}
