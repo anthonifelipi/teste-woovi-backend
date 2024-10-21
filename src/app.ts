@@ -5,13 +5,15 @@ import mongoose from "mongoose";
 import userRouter from "./routes/user.router";
 import Router from "@koa/router";
 import handlerErrors from "./middlewares/handlerError";
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
+import loginRouter from "./routes/login";
 
 export const app = new Koa();
 const router = new Router();
 export const prisma = new PrismaClient();
 
 router.use("/users", userRouter.routes(), userRouter.allowedMethods());
+router.use("/login", loginRouter.routes(), userRouter.allowedMethods());
 
 // Conecte-se ao MongoDB
 // mongoose.connect('mongodb://localhost:27017/nome-do-banco', {

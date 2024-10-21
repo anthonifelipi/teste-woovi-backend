@@ -15,3 +15,7 @@ export interface IUserResponse {
   createdAt: Date;
   updatedAt: Date;
 }
+export interface ILogin {
+  email: string;
+  password: string;
+}
