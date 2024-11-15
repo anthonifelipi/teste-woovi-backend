@@ -30,6 +30,7 @@ model User {
 
 model Transaction {
   id         String   @id @default(uuid())
+  name       String
   amount     Decimal
   createdAt  DateTime @default(now())
   senderId   String

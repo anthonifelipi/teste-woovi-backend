@@ -8,6 +8,7 @@ import handlerErrors from "./middlewares/handlerError";
 import { PrismaClient } from "@prisma/client";
 import loginRouter from "./routes/login";
 import transactionRouter from "./routes/transaction";
+import cors from "@koa/cors";
 
 export const app = new Koa();
 const router = new Router();
@@ -15,7 +16,11 @@ export const prisma = new PrismaClient();
 
 router.use("/users", userRouter.routes(), userRouter.allowedMethods());
 router.use("/login", loginRouter.routes(), loginRouter.allowedMethods());
-router.use("/transaction", transactionRouter.routes(), transactionRouter.allowedMethods());
+router.use(
+  "/transaction",
+  transactionRouter.routes(),
+  transactionRouter.allowedMethods()
+);
 
 // Conecte-se ao MongoDB
 // mongoose.connect('mongodb://localhost:27017/nome-do-banco', {
@@ -31,19 +36,24 @@ const typeDefs = `
   }
 `;
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
 const resolvers = {
   Query: {
     hello: () => "Olá, mundo!",
   },
 };
 
-// Crie o servidor Apollo para GraphQL
 const apolloServer = new ApolloServer({ typeDefs, resolvers });
 apolloServer.start().then(() => {
   apolloServer.applyMiddleware({ app });
 });
 
-// Middleware
 app.use(bodyParser());
 app.use(handlerErrors);
 app.use(router.routes()).use(router.allowedMethods());

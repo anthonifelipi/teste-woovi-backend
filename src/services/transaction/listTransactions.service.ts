@@ -19,6 +19,6 @@ const listTransactionService = async (userId: string) => {
     transactionsReceiveds: transactionsReceived,
   };
 
-  return transactions
+  return transactions;
 };
 export default listTransactionService;

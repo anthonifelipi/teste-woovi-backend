@@ -5,6 +5,7 @@ import { IUserRequest } from "../../interfaces/users";
 const createUsersController = async (ctx: Context) => {
   try {
     const data: any = ctx.request.body;
+    console.log(data, "front aqui");
 
     const newUser = await createUserService(data);
     ctx.status = 201;

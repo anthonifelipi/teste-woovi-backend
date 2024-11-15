@@ -1,10 +1,11 @@
 import { Context } from "koa";
-import createUserService from "../../services/users/userCreate.service";
 import { ITransaction } from "../../interfaces/users";
 import createTransactionService from "../../services/transaction/createTransaction.service";
 
 const createTransactionController = async (ctx: Context) => {
   try {
+    console.log(ctx.request.body, "Body");
+    console.log(ctx.state.user, "Body");
     const { receiver, amount } = ctx.request.body as ITransaction;
     const userId = ctx.state.user.id;
     const transaction = await createTransactionService(

@@ -1,7 +1,6 @@
 import { prisma } from "../../app";
 import { AppError } from "../../errors/appErrors";
 import Decimal from "decimal.js";
-import { ITransaction } from "../../interfaces/users";
 
 const createTransactionService = async (
   senderId: string,
@@ -17,23 +16,21 @@ const createTransactionService = async (
       id: senderId,
     },
   });
-
+  console.log(senderId, receiverCpf, amount, "AUQIIIII");
   const receiver = await prisma.user.findUnique({
     where: {
       cpf: receiverCpf,
     },
   });
-
-  console.log(receiver);
-
   if (!sender || !receiver) {
     throw new AppError("Receiver not found");
   }
-
+  console.log(sender, "sender");
   if (sender.cpf == receiverCpf) {
     throw new AppError("You can't send money to yourself", 400);
   }
 
+  console.log(receiver, "AQUI cheguei");
   const senderBalance = new Decimal(sender.balance);
   const receiverBalance = new Decimal(receiver.balance);
 
@@ -57,12 +54,13 @@ const createTransactionService = async (
 
   const transaction = await prisma.transaction.create({
     data: {
+      name: receiver.name,
       senderId: senderId,
       receiverId: receiver.id,
       amount: amount.toString(),
     },
   });
-
+  console.log("Deu certo");
   return transaction;
 };
 export default createTransactionService;
